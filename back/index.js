@@ -51,6 +51,11 @@ app.use('/api/v1/auth', authRoutes)
 
 
 
+const usersRoute = require('./routes/usersRoutes')
+app.use('/api/v1/usuarios', usersRoute)
+
+
+
 
 app.get('*', (req, res) => { 
     if(!req.url.includes("/api/v1")){

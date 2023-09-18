@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import ValidateForm from 'src/app/helpers/validateforms';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -15,16 +13,13 @@ export class LoginComponent implements OnInit {
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa fa-eye slash";
-  loginForm!: FormGroup;
+  loginForm!: any;
+  username: any;
+  pass: any;  
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    })
-  }
+  ngOnInit(): void {}
 
   hideShowPass() {
     this.isText = !this.isText;
@@ -32,29 +27,23 @@ export class LoginComponent implements OnInit {
     this.isText ? this.type = "text" : this.type = "password"
   }
 
-  onLogin() {
-    if (this.loginForm.valid) {
-      // send the object to database
-      console.log(this.loginForm.value);
-      this.auth.login(this.loginForm.value)
-        .subscribe({
-          next: (res) => {
-            alert(res.message);
-            this.loginForm.reset();
-            this.router.navigate(['dashboard']);
-          },
-          error: (err) => {
-            alert(err?.error.message)
-          }
-        })
-    } else {
-      // throw the error using toaster and with required fields
-      ValidateForm.validateAllFormFields(this.loginForm);
-      alert("Your form is invalid");
+
+  login() {
+    if (!this.username || !this.pass) {
+      alert("falta pass o username")
+      } 
+    else {
+      this.auth.login(this.username, this.pass)
+      .then((res: any) => {
+        if (res.access_token) {
+          localStorage.setItem("access_token", res.access_token);
+          this.router.navigate(['/bco-registrar-personas']);
+        } else {
+          alert(res.error);
+        }
+      })
     }
-
+    
   }
-
-
 
 }
