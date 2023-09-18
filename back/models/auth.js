@@ -73,3 +73,17 @@ exports.login = async (req, res) => {
         conn.release()
     }
 };
+
+
+exports.register = async (req, res) => {
+    const {firstName, lastName, email, userName, password} = req.params
+
+    try {
+        const conn = async
+    } catch (error) {
+        
+    }
+    
+
+
+}
