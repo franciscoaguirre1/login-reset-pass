@@ -15,13 +15,15 @@ import { Router } from "@angular/router";
 
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router) { }
+    constructor(
+        private router: Router,
+      ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         let token = localStorage.getItem('access_token');
         if(token){
-            if(!req.url.includes('login')){
+            if(!req.url.includes('login') || !req.url.includes('signup')){
                 const headers =  new HttpHeaders({
                     'Authorization': `Bearer ${token}`
                 });
@@ -54,6 +56,5 @@ export class AuthInterceptor implements HttpInterceptor {
             })
         );
     }
-
 
 }

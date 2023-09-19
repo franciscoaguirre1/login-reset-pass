@@ -4,7 +4,7 @@ const users = require('../models/users')
 
 router.get('/', users.leerUsuarios)
 router.get('/:idUsuario', users.leerUsuarioPorId)
-router.post('/', users.crearUsuario)
+router.post('/signup', users.crearUsuario)
 router.delete('/:idUsuario', users.borrarUsuario)
 router.put('/', users.actualizarUsuario)
 

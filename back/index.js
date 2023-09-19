@@ -19,30 +19,36 @@ app.listen(8080, function () {
 })
 
 //Static files
-app.use('/', express.static("../front/dist/front/"))
+app.use(express.static("../front/dist/front/"))
 
 
 //Middlewares HTTP
-app.use((req, res, next) => {
-    if(req.url == '/api/v1/auth/login' || !req.url.includes('/api/v1')){
-        next()
-        return
-    }
-    const token = tools.getBearerToken(req.headers.authorization);
-    if(!token){
-        res.status(401).send();
-        return
-    }
-    try {
-        const privateKey = config.KEY_APP
-        jwt.verify(token, privateKey)
-        next()
-    } catch(err) {
-        res.status(401).send({error: "Token inválido"})
-        return
-    }
-})
 
+app.use((req, res, next) => {
+    if (req.url === '/api/v1/auth/login' || req.url === '/api/v1/auth/signup') {
+        // Si la URL es para login o signup, permite la solicitud sin autenticación.
+        next();
+    } else if (!req.url.includes('/api/v1')) {
+        // Si la URL no está bajo '/api/v1', permite la solicitud sin autenticación.
+        next();
+    } else {
+        const token = tools.getBearerToken(req.headers.authorization);
+        if (!token) {
+            // Si no hay un token válido, devuelve una respuesta 401 (No autorizado).
+            res.status(401).send();
+        } else {
+            try {
+                const privateKey = config.KEY_APP;
+                // Verifica el token utilizando la clave privada.
+                jwt.verify(token, privateKey);
+                next();
+            } catch (err) {
+                // Si el token es inválido, devuelve una respuesta 401 con un mensaje de error.
+                res.status(401).send({ error: "Token inválido" });
+            }
+        }
+    }
+});
 
 
 /////ROUTES  A-Z///
@@ -51,7 +57,7 @@ app.use('/api/v1/auth', authRoutes)
 
 
 const usersRoute = require('./routes/usersRoutes')
-app.use('/api/v1/usuarios', usersRoute)
+app.use('/api/v1/', usersRoute)
 
 
 

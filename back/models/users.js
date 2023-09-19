@@ -100,7 +100,7 @@ exports.crearUsuario = async (req, res) => {
     else {
         const conn = await mysql.connection()
         try {
-            bcrypt.hash(USUARIO_PASS, saltRounds, async function(err, hash) { 
+            bcrypt.hash(password, saltRounds, async function(err, hash) { 
                 if (err) {
                     const data = {
                         data: null,
@@ -110,7 +110,7 @@ exports.crearUsuario = async (req, res) => {
                     res.status(500).send(data)
                 } else {
                     const result = await conn.query(`CALL SP_CREAR_USUARIO(?, ?, ?, ?, ?, @o_mesaje)`, 
-                        [nombre, hash, apellido, nombre_usuario, email])
+                        [nombre, hash, apellido, nombreusuario, email])
                         if (result[0][0].O_MENSAJE == 'OK') {
                             const data = {
                                 data: null,
