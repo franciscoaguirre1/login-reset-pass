@@ -7,14 +7,10 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const config = JSON.parse(fs.readFileSync('./config.json'))
-
-
-
-
-
 exports.login = async (req, res) => {
+    console.log(req.body);                                  /// ver qué le envío a la base de datos
 
-    if(!req.body.username || !req.body.pass){
+    if(!req.body.usuario.userName || !req.body.usuario.pass){
         const data = {
             data: null,
             sqlMsg: "",
@@ -26,7 +22,7 @@ exports.login = async (req, res) => {
     const {username, pass} = req.body;
     const conn = await mysql.connection()
     try {
-        const db_user = await conn.query(`CALL SP_BANCO_OBTENER_USUARIO_LOGIN(?)`, [username])
+        const db_user = await conn.query(`CALL SP_OBTENER_USUARIO_LOGIN(?)`, [username])
         if(db_user[0].length == 0){
             const data = {
                 data: null,
@@ -74,16 +70,3 @@ exports.login = async (req, res) => {
     }
 };
 
-
-exports.register = async (req, res) => {
-    const {firstName, lastName, email, userName, password} = req.params
-
-    try {
-        const conn = async
-    } catch (error) {
-        
-    }
-    
-
-
-}

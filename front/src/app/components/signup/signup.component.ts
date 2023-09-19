@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { UsersApiService } from 'src/app/services/users-api.service';
 
 
 @Component({
@@ -13,15 +13,10 @@ export class SignupComponent implements OnInit {
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa fa-eye slash";
-  firstName: any
-  lastName: any
-  email: any
-  userName: any
-  password: any
-  signUpForm!: any;
+  usuario:any =  {}
 
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: UsersApiService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -31,15 +26,15 @@ export class SignupComponent implements OnInit {
     this.isText ? this.type = "text" : this.type = "password"
   }
 
-  onSignup() {
-    console.log(this.signUpForm);
-    if (this.signUpForm) {
-      this.auth.signUp(this.firstName, this.lastName, this.email, this.userName, this.password)
+  registrarse() {
+    console.log("usuario desde signup.component.ts",this.usuario);
+    if (this.usuario) {
+      this.auth.crearUsuario(this.usuario)
         .then((res: any) => {
             alert(res.messsage);
-            this.signUpForm.reset();
+            this.usuario.reset();
             this.router.navigate(['login']);
-            
+            return
           })
         }
           else {

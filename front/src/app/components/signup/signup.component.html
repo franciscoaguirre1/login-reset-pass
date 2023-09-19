@@ -4,43 +4,51 @@
             <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offert-md-3">
                 <div class="panel border bg-white">
                     <div class="panel-heading">
-                        <h3 class="pt-3 font-weight-bold">Sign Up</h3>
+                        <h3 class="pt-3 font-weight-bold">Registrarme</h3>
                     </div>
                     <div class="panel-body p-3">
                         <form ngNativeValidate #formulario="ngForm">
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input required type="text" placeholder="First Name" style="border: none;">
-                                </div>
-                            </div>
-                            <div class="form-group pt-3">
-                                <div class="input-field" >
-                                    <span class="fa fa-user p-2"></span>
-                                    <input required type="text" placeholder="Last Name" style="border: none;">
+                                    <input required type="text" [(ngModel)]="usuario.nombre" name="usuario.nombre" placeholder="Nombre" style="border: none;">
                                 </div>
                             </div>
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input required type="email" placeholder="Email" style="border: none;">
+                                    <input required type="text" [(ngModel)]="usuario.apelllido" name="usuario.apellido" placeholder="Apellido" style="border: none;">
                                 </div>
                             </div>
                             <div class="form-group pt-3">
                                 <div class="input-field">
                                     <span class="fa fa-user p-2"></span>
-                                    <input required type="text" placeholder="Username" style="border: none;">
+                                    <input required type="email" [(ngModel)]="usuario.email" name="usuario.email" placeholder="Email" style="border: none;">
+                                </div>
+                            </div>
+                            <div class="form-group pt-3">
+                                <div class="input-field">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input required type="text" [(ngModel)]="usuario.nombreUsuario" name="userName.nombreUsuario" placeholder="Nombre de Usuario" style="border: none;">
                                 </div>
                             </div>
                             <div class="form-group pt-3">
                                 <div class="input-field" >
                                     <span class="fa fa-lock p-2"></span>
-                                    <input required [type]="type" name="" id="" placeholder="Password" style="border: none;">
+                                    <input required [type]="type" [(ngModel)]="usuario.password" name="usuario.password" placeholder="Contraseña" style="border: none;">
                                     <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
                                 </div>
                             </div>
-                            <button type="submit" [disabled]="!formulario.valid" (click)="onSignup()" class="btn btn-primary btn-block mt-4 w-100">Sign Up</button>
-                            <div class="text-center pt-4 text-muted">Already have an account? <a id="forget" routerLink="/login">Login</a></div>
+                            <div class="form-group pt-3">
+                                <div class="input-field" >
+                                    <span class="fa fa-lock p-2"></span>
+                                    <input required [type]="type" [(ngModel)]="usuario.password2" name="usuario.password2"  placeholder="Repetir Contraseña" style="border: none;">
+                                    <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
+                                </div>
+                                <small *ngIf="usuario.password != usuario.password2" class="text-danger">*las contraseñas deben coincidir</small>
+                            </div>
+                            <button type="submit" [disabled]="!formulario.valid" (click)="registrarse()" class="btn btn-primary btn-block mt-4 w-100">Sign Up</button>
+                            <div class="text-center pt-4 text-muted">Tienes una cuenta? <a id="forget" routerLink="/login">Iniciá Sesión</a></div>
                         </form>
                     </div>
                     <div class="mx-3 my-2 py-2 bordert">

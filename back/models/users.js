@@ -76,11 +76,11 @@ exports.leerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
     
-    const {USUARIO_USERNAME, USUARIO_PASS, USUARIO_NOMBRES, USUARIO_APELLIDOS, USUARIO_PASS2, USUARIO_EMAIL, USUARIO_TIPO_USUARIO_ID, USUARIO_CUIL} = req.body
+    const {nombre, apellido, email, nombreusuario, password, password2} = req.body
 
 
     
-    if(!USUARIO_USERNAME || !USUARIO_PASS || !USUARIO_CUIL){
+    if(!nombre || !apellido || !email || !nombreusuario || !password || !password2){
         const data = {
             data: null,
             sqlMsg: "",
@@ -89,7 +89,7 @@ exports.crearUsuario = async (req, res) => {
         res.status(400).send(data)
     } 
 
-    else if (!USUARIO_PASS2 || USUARIO_PASS2 != USUARIO_PASS) {
+    else if (!password || password2 != password) {
         const data = {
             data: null,
             sqlMsg: "",
@@ -109,8 +109,8 @@ exports.crearUsuario = async (req, res) => {
                     }
                     res.status(500).send(data)
                 } else {
-                    const result = await conn.query(`CALL SP_BANCO_CREAR_USUARIO(?, ?, ?, ?, ?, ?, ?, @o_mesaje)`, 
-                        [USUARIO_USERNAME, hash, USUARIO_NOMBRES, USUARIO_APELLIDOS, USUARIO_EMAIL, USUARIO_TIPO_USUARIO_ID, USUARIO_CUIL])
+                    const result = await conn.query(`CALL SP_CREAR_USUARIO(?, ?, ?, ?, ?, @o_mesaje)`, 
+                        [nombre, hash, apellido, nombre_usuario, email])
                         if (result[0][0].O_MENSAJE == 'OK') {
                             const data = {
                                 data: null,

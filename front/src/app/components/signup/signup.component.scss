@@ -64,6 +64,7 @@ input [type='password'] {
     border: none;
     outline: none;
     box-shadow: none;
+    justify-content: end;
 }
 
 img {
@@ -80,7 +81,7 @@ img {
 }
 
 .bordert:after {
-    content: "or connect with";
+    content: "iniciar sesión con";
     position: absolute;
     top: -13px;
     left: 33%;

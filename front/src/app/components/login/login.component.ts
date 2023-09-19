@@ -13,9 +13,7 @@ export class LoginComponent implements OnInit {
   type: string = "password";
   isText: boolean = false;
   eyeIcon: string = "fa fa-eye slash";
-  loginForm!: any;
-  username: any;
-  pass: any;  
+  usuario: any = {}
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -28,12 +26,14 @@ export class LoginComponent implements OnInit {
   }
 
 
-  login() {
-    if (!this.username || !this.pass) {
+  login() { 
+    console.log(this.usuario);
+
+    if (!this.usuario) {
       alert("falta pass o username")
       } 
     else {
-      this.auth.login(this.username, this.pass)
+      this.auth.login(this.usuario)
       .then((res: any) => {
         if (res.access_token) {
           localStorage.setItem("access_token", res.access_token);

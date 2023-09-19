@@ -11,25 +11,25 @@
                 <div class="form-group pt-3">
                     <div class="input-field">
                     <span class="fa fa-user p-2"></span>
-                    <input type="text" placeholder="Username" style="border: none;"/>
+                    <input type="text" placeholder="Nombre de Usuario" [(ngModel)]="usuario.nombreUsuario" name="usuario.nombreUsuario" style="border: none;"/>
                     </div>
                 </div>
                 <div class="form-group pt-3">
                     <div class="input-field">
                     <span class="fa fa-lock p-2"></span>
-                    <input placeholder="Password" style="border: none;"/>
+                    <input placeholder="Contraseña" [(ngModel)]="usuario.password" name="usuario.password" style="border: none;" type="password"/>
                     <span (click)="hideShowPass()" class="fa {{ eyeIcon }}"></span>
                     </div>
                 </div>
                 <div class="form-inline fr mt-4">
-                    <a id="forget" class="font-weight-bold">Forgot Password?</a>
+                    <a id="forget" class="font-weight-bold">Olvidé mi contraseña</a>
                 </div>
                 <button (click)="login()"  type="submit" class="btn btn-primary btn-block mt-4 w-100">
-                    Login
+                    Iniciar Sesión
                 </button>
                 <div class="text-center pt-4 text-muted">
-                    Don't have an account?
-                    <a id="forget" routerLink="/signup">Sign up</a>
+                    No tienes cuenta aún?
+                    <a id="forget" routerLink="/signup">Registrarme</a>
                 </div>
                 </form>
             </div>
