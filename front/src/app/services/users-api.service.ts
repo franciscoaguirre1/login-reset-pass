@@ -11,7 +11,7 @@ export class UsersApiService {
 
 
   crearUsuario(userData: any) {
-    return this.http.post(`${environment.apiUrl}/api/v1/auth/signup/`, userData).toPromise()
+    return this.http.post(`${environment.apiUrl}/api/v1/signup/`, userData).toPromise()
   }
 
   leerUsuarios() {

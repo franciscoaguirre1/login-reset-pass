@@ -1,6 +1,10 @@
+/////////////// CONTROLADOR
+
+
 const mysql = require("../utils/mysql-pool.js")
 const bcrypt = require('bcrypt')
 const saltRounds = 10
+
 
 
 exports.leerUsuarios = async (req, res) => {
@@ -105,12 +109,14 @@ exports.crearUsuario = async (req, res) => {
                     const data = {
                         data: null,
                         sqlMsg: "",
-                        resMsg: `Error al hashear la pass ${error}`
+                        resMsg: `Error al hashear la pass ${err}`
                     }
+                    console.log("este es err en la función crearUsuario2",err)
                     res.status(500).send(data)
                 } else {
                     const result = await conn.query(`CALL SP_CREAR_USUARIO(?, ?, ?, ?, ?, @o_mesaje)`, 
                         [nombre, hash, apellido, nombreusuario, email])
+                        console.log("esto es result dentro del else", result);
                         if (result[0][0].O_MENSAJE == 'OK') {
                             const data = {
                                 data: null,
@@ -144,6 +150,7 @@ exports.crearUsuario = async (req, res) => {
     }
     
 }
+
 
 exports.borrarUsuario = async (req, res) => {
     const { idUsuario } = req.params

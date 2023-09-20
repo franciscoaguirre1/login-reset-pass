@@ -15,7 +15,7 @@ export class AuthService {
 
   login(usuario:any){
     console.log("usuario desde auth.service: ",usuario);
-    const res =  this.http.post(`${environment.apiUrl}/api/v1/auth/`, usuario)
+    const res =  this.http.post(`${environment.apiUrl}/api/v1/login`, usuario)
     return lastValueFrom(res)
   }
 
