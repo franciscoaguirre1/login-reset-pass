@@ -11,6 +11,7 @@ export class UsersApiService {
 
 
   crearUsuario(userData: any) {
+    console.log("userdata desde users.api:",userData);
     return this.http.post(`${environment.apiUrl}/api/v1/signup/`, userData).toPromise()
   }
 
