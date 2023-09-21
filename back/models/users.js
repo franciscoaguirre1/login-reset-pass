@@ -151,7 +151,6 @@ exports.crearUsuario = async (req, res) => {
     
 }
 
-
 exports.borrarUsuario = async (req, res) => {
     const { idUsuario } = req.params
     if (idUsuario != 'undefined') {
