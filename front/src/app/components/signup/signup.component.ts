@@ -31,15 +31,28 @@ export class SignupComponent implements OnInit {
     if (this.usuario) {
       this.auth.crearUsuario(this.usuario)
         .then((res: any) => {
-            alert(res.messsage);
+            alert(res.resMsg);
             this.usuario.reset();
-            this.router.navigate(['login']);
+            this.resetForm();
+            this.router.navigate(['/login']);
             return
           })
         }
           else {
       alert("Your form is invalid");
     }
+  }
+
+
+  resetForm() {
+    this.usuario = {
+      nombre: '',
+      apellido: '',
+      email: '',
+      nombreUsuario: '',
+      password: '',
+      password2: ''
+    };
   }
 
 

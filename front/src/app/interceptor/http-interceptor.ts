@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
         let token = localStorage.getItem('access_token');
         console.log("este es el token en el archivo http-interceptor",token)
         if(token){
-            if(req.url.includes('login') || !req.url.includes('signup')){
+            if(!req.url.includes('login') || !req.url.includes('signup')){
                 const headers =  new HttpHeaders({
                     'Authorization': `Bearer ${token}`
                 });

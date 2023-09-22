@@ -80,11 +80,9 @@ exports.leerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
     
-    const {nombre, apellido, email, nombreusuario, password, password2} = req.body
-
-
+    const {nombre, apellido, email, nombreUsuario, password, password2} = req.body
     
-    if(!nombre || !apellido || !email || !nombreusuario || !password || !password2){
+    if(!nombre || !apellido || !email || !nombreUsuario || !password || !password2){
         const data = {
             data: null,
             sqlMsg: "",
@@ -115,19 +113,19 @@ exports.crearUsuario = async (req, res) => {
                     res.status(500).send(data)
                 } else {
                     const result = await conn.query(`CALL SP_CREAR_USUARIO(?, ?, ?, ?, ?, @o_mesaje)`, 
-                        [nombre, hash, apellido, nombreusuario, email])
+                        [nombre, apellido, email, nombreUsuario, hash])
                         console.log("esto es result dentro del else", result);
-                        if (result[0][0].O_MENSAJE == 'OK') {
+                        if (result.affectedRows > 0) {
                             const data = {
                                 data: null,
-                                sqlMsg: result[0][0].O_MENSAJE,
-                                resMsg: `OK`
+                                sqlMsg: 'Usuario creado con éxito',
+                                resMsg: `Usuario creado con éxito`
                             }
                             res.status(200).send(data)
                         } else {
                             const data = {
                                 data: null,
-                                sqlMsg: result[0][0].O_MENSAJE,
+                                sqlMsg: 'No se pudo crear el usuario',
                                 resMsg: 'No se pudo crear el usuario'
                             }
                             res.status(200).send(data)

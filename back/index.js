@@ -23,45 +23,9 @@ app.listen(8080, function () {
 app.use(express.static("../front/dist/front/"))
 
 
-//Middlewares HTTP
-
-// app.use((req, res, next) => {
-//     if (req.url === '/api/v1/auth/login' || req.url === '/api/v1/auth/signup') {
-//         // Si la URL es para login o signup, permite la solicitud sin autenticación.
-//         next();
-//     } else if (!req.url.includes('/api/v1')) {
-//         console.log("entro aca 1");
-//         // Si la URL no está bajo '/api/v1', permite la solicitud sin autenticación.
-//         next();
-//     } else {
-//         const token = tools.getBearerToken(req.headers.authorization);
-//         console.log("entro aca 2");
-//         if (!token) {
-//         console.log("entro aca 3");
-//             // Si no hay un token válido, devuelve una respuesta 401 (No autorizado).
-//             res.status(401).send();
-//         } else {
-//         console.log("entro aca 4");
-//             try {
-//                 console.log("entro aca 5");                
-//                 const privateKey = config.KEY_APP;
-//                 // Verifica el token utilizando la clave privada.
-//                 jwt.verify(token, privateKey);
-//                 next();
-//             } catch (err) {
-//                 console.log("entro aca 6");
-//                 // Si el token es inválido, devuelve una respuesta 401 con un mensaje de error.
-//                 res.status(401).send({ error: "Token inválido" });
-//             }
-//         }
-//     }
-// });
-
-
-
 
 app.use((req, res, next) => {
-    if(req.url == '/api/v1/auth/login' || !req.url.includes('/api/v1')){
+    if(req.url == '/api/v1/login' || req.url.includes('/api/v1/signup') || !req.url.includes('/api/v1') ){
         console.log("entro aca 1");
         next()
         return

@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       .then((res: any) => {
         if (res.access_token) {
           localStorage.setItem("access_token", res.access_token);
-          this.router.navigate(['/bco-registrar-personas']);
+          this.router.navigate(['/dashboard']);
         } else {
           alert(res.error);
         }

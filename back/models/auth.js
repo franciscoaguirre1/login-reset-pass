@@ -6,11 +6,11 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+
 const config = JSON.parse(fs.readFileSync('./config.json'))
 exports.login = async (req, res) => {
-    console.log(req.body);                                  /// ver qué le envío a la base de datos
-
-    if(!req.body.usuario.userName || !req.body.usuario.pass){
+    console.log("este es req.body desde auth.js: ",req.body);
+    if(!req.body.nombreUsuario || !req.body.password){
         const data = {
             data: null,
             sqlMsg: "",
@@ -19,11 +19,12 @@ exports.login = async (req, res) => {
         res.status(400).send(data)
         return;
     }
-    const {username, pass} = req.body;
+    const {nombreUsuario, password} = req.body;
     const conn = await mysql.connection()
     try {
-        const db_user = await conn.query(`CALL SP_OBTENER_USUARIO_LOGIN(?)`, [username])
-        if(db_user[0].length == 0){
+        const db_user = await conn.query(`CALL SP_OBTENER_USUARIO_LOGIN(?)`, [nombreUsuario, password])
+        console.log("este es db_user",db_user);
+        if(db_user[0][0].length == 0){
             const data = {
                 data: null,
                 sqlMsg: "",
@@ -32,15 +33,17 @@ exports.login = async (req, res) => {
             res.status(400).send(data)
             return;
         }
-        const hash = db_user[0][0].USUARIO_PASS
-        bcrypt.compare(pass, hash, function(err, result) {
+        const hash = db_user[0][0].password
+        console.log("este es hash",hash);
+        console.log("este es password", password);
+        bcrypt.compare(password, hash, function(err, result) {
             if (result == true) {
+                console.log("entro aca si result es igual a true:", result);
                 const privateKey = config.KEY_APP
                 const jwtoken = jwt.sign({
-                    user_id: db_user[0][0].USUARIO_ID,
-                    user_name: db_user[0][0].USUARIO_USERNAME,
-                    tipo_usuario: db_user[0][0].USUARIO_TIPO_USUARIO_ID,
-                    usuario_pass: db_user[0][0].USUARIO_PASS,
+                    user_id: db_user[0][0].id_usuario,
+                    nombreUsuario: db_user[0][0].nombreUsuario,
+                    password: db_user[0][0].password,
                     iat: parseFloat( moment().format("X") )
                 }, privateKey)
                 res.status(200).send({
@@ -70,8 +73,3 @@ exports.login = async (req, res) => {
     }
 };
 
-
-
-// exports.login = async (req, res) => {
-//     res.json({ok:true})
-// }
