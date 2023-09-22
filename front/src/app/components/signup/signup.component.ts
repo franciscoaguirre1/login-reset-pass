@@ -43,13 +43,4 @@ export class SignupComponent implements OnInit {
     }
   }
 
-
-  resetForm() {
-    this.usuario.nombre = '';
-    this.usuario.apellido = '';
-    this.usuario.email = '';
-    this.usuario.nombreUsuario = '';
-    this.usuario.password = '';
-    this.usuario.password2 = '';
-  }
 } 
