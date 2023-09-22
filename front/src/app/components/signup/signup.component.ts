@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { UsersApiService } from 'src/app/services/users-api.service';
 
@@ -14,6 +15,7 @@ export class SignupComponent implements OnInit {
   isText: boolean = false;
   eyeIcon: string = "fa fa-eye slash";
   usuario:any =  {}
+  @ViewChild('formulario') formulario!: NgForm;
 
 
   constructor(private auth: UsersApiService, private router: Router) {}
@@ -32,8 +34,6 @@ export class SignupComponent implements OnInit {
       this.auth.crearUsuario(this.usuario)
         .then((res: any) => {
             alert(res.resMsg);
-            this.usuario.reset();
-            this.resetForm();
             this.router.navigate(['/login']);
             return
           })
@@ -45,15 +45,11 @@ export class SignupComponent implements OnInit {
 
 
   resetForm() {
-    this.usuario = {
-      nombre: '',
-      apellido: '',
-      email: '',
-      nombreUsuario: '',
-      password: '',
-      password2: ''
-    };
+    this.usuario.nombre = '';
+    this.usuario.apellido = '';
+    this.usuario.email = '';
+    this.usuario.nombreUsuario = '';
+    this.usuario.password = '';
+    this.usuario.password2 = '';
   }
-
-
 } 
