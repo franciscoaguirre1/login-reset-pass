@@ -15,20 +15,4 @@ export class UsersApiService {
     return this.http.post(`${environment.apiUrl}/api/v1/signup/`, userData).toPromise()
   }
 
-  leerUsuarios() {
-    return this.http.get(`${environment.apiUrl}/api/v1/usuarios`).toPromise()
-  }
-
-  leerUsuario(idUsuario: any) {
-    return this.http.get(`${environment.apiUrl}/api/v1/usuarios/${idUsuario}`).toPromise()
-  } 
-  
-  eliminarUsuario(idUsuario: any) {
-    return this.http.delete(`${environment.apiUrl}/api/v1/usuarios/${idUsuario}`).toPromise()
-  }
-  
-  editarUsuario(userData: any) {
-    return this.http.put(`${environment.apiUrl}/api/v1/usuarios/`, userData).toPromise()
-  }
-
 }

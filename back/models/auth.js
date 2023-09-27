@@ -8,6 +8,10 @@ const saltRounds = 10
 
 
 const config = JSON.parse(fs.readFileSync('./config.json'))
+
+
+
+
 exports.login = async (req, res) => {
     console.log("este es req.body desde auth.js: ",req.body);
     if(!req.body.nombreUsuario || !req.body.password){
@@ -22,7 +26,7 @@ exports.login = async (req, res) => {
     const {nombreUsuario, password} = req.body;
     const conn = await mysql.connection()
     try {
-        const db_user = await conn.query(`CALL SP_OBTENER_USUARIO_LOGIN(?)`, [nombreUsuario, password])
+        const db_user = await conn.query(`CALL SP_OBTENER_USUARIO_LOGIN(?,?,  @o_mesaje), `, [nombreUsuario, password])
         console.log("este es db_user",db_user);
         if(db_user[0][0].length == 0){
             const data = {
@@ -72,4 +76,52 @@ exports.login = async (req, res) => {
         conn.release()
     }
 };
+
+
+
+exports.forgotPassword = async (req, res, next) => {
+    const {nombreUsuario} = req.body;
+    if (!(nombreUsuario)) {
+        return res.status(400).json({message: 'Nombre de usuario es requerido!'});
+    }
+
+    const message = 'Ingrese al email declarado para reestablecer su contraseña.';
+    let verificationLink;
+    let emailStatus = 'Ok';
+
+
+    try {
+        const db_user = await conn.query(`CALL SP_FORGOT_PASSWORD(?, ?,  @o_mesaje)`, [nombreUsuario, email])
+        const privateKey = config.KEY_APP
+        const jwtoken = jwt.sign({user_id: db_user[0][0].id_usuario,nombreUsuario: db_user[0][0].nombreUsuario,password: db_user[0][0].password,iat: parseFloat( moment().format("X") )}, privateKey, {expiresIn: '10m'});
+        res.status(200).send({access_token: jwtoken,});
+        verificationLink = `http://localhost:3000/new-password/${jwtoken}`;
+    
+    } catch (error) {
+        emailStatus = error
+        return res.json({message: 'Algo ha salido mal'});
+    } 
+
+
+    // TODO: sendEmail;
+
+
+    try {
+
+        
+    } catch (error) {
+        emailStatus = error;
+        return res.status(400).json({message: 'Algo ha salido mal!'});
+        
+    }
+    
+    
+
+
+}
+
+
+exports.resetPassword = async (req, res, next) => {
+
+}
 
